@@ -22,16 +22,14 @@ const getById = async (req,res,next) => {
 
 const updateById = async (req,res,next) => {
     const data = req.body;
-    if(!data.title && !data.description && !data.ingredients ){
-        return res.status(400).json({code: 400,message:"Invalid Input"})
-    }
     try {
         const coffee = await Coffee.findOneAndUpdate({
             _id:req.params.id,
         },{ $set:
-                { ingredients:data.ingredients,
+                {   ingredients:data.ingredients,
                     title: data.title,
-                    description: data.description
+                    description: data.description,
+                    category:data.category
                 }
         });
 
@@ -54,10 +52,6 @@ const deleteById = async (req,res,next) => {
 
 const create = async(req,res,next) => {
     const data = req.body;
-    if(!data.title || !data.description){
-        return res.status(400).json({code:400, message: 'invalid input'});
-    }
-
     try {
         const newCoffee = new Coffee({
             title:data.title,
