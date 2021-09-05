@@ -1,30 +1,35 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const cors = require('cors');
 const createError = require('http-errors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose =require('mongoose');
 
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+//cors
+app.use(cors());
 
 const indexRouter = require('./routes/index');
 const coffeRouter = require('./routes/coffeRouter');
+
 
 app.use('/', indexRouter);
 app.use('/coffee',coffeRouter);
 
 
-mongoose.connect('mongodb+srv://halid:6EpRyyTJdBBJg98M@cluster0.j0t8k.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', { useNewUrlParser: true })
+mongoose.connect('mongodb+srv://halid:6EpRyyTJdBBJg98M@cluster0.j0t8k.mongodb.net/kloia-task?retryWrites=true&w=majority', { useNewUrlParser: true })
     .then(() => {
-      console.log("Success!. MongoDB connected.")
+        console.log("Success!.MongoDB connected.")
     })
     .catch((error) => {console.error("MongoDb connection failed: " , error)})
 
 
+mongoose.set('useFindAndModify', false);
 
 
 // view engine setup
