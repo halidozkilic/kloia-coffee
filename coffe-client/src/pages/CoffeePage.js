@@ -21,12 +21,14 @@ class CoffeePage extends Component {
     render() {
         return (
             <div>
-                <Container>
-                    <Row className="container-fluid mt-3">
+                <div class="row no-gutters">
+                    <div class="col-3 col-sm-12 col-md-3" style={{padding:20}}>
                         <Sidebar />
+                    </div>
+                    <div class="col-9 col-sm-12 col-md-9">
                         <CoffeeList />
-                    </Row>
-                </Container>
+                    </div>
+                </div>
             </div>
         );
     }

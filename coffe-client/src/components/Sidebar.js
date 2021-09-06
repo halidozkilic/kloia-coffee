@@ -15,7 +15,7 @@ class Sidebar extends Component {
             {id: 2, name: "Hot"},
             {id: 3, name: "Iced"},
         ],
-        active:''
+        active:1
     };
 
     searchReq = (searchText) => {
@@ -67,7 +67,7 @@ class Sidebar extends Component {
                                 <li key={element.id}
                                 data-id={element.id}
                                 data-name={element.name}
-                                className={this.state.active === element.id ? "active" : ""}
+                                    style={this.state.active == element.id ? {color:"blue"}: {color:"black"}}
                                 onClick={this.categoryChange}>{element.name}</li>
                             ))
                         }
