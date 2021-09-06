@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import * as actionCreators from "../redux/actions/actionCreators";
+import { bindActionCreators } from "redux";
 
 
 
-export default class Sidebar extends Component {
+class Sidebar extends Component {
     state = {
         query:"",
         categories : [
@@ -21,12 +21,18 @@ export default class Sidebar extends Component {
         let name = e.target;
     }
 
-    categoryChange = (e) =>{
-        let categoryId = e.target && e.target.id || '';
+    categoryChange = (e) => {
+        if (e.target && e.target.dataset) {
+            const categoryId = e.target && e.target.dataset && e.target.dataset.id;
+            const categoryName = e.target && e.target.dataset && e.target.dataset.name;
 
-        if (categoryId) {
-            this.setState({active: categoryId})
+            if (categoryId && categoryName) {
+                this.props.dispatch(actionCreators.changeCategory(categoryName === 'All Coffees' ? '' : categoryName ));
+                this.setState({active: categoryId})
+            }
         }
+
+
     }
 
     render() {
@@ -41,10 +47,10 @@ export default class Sidebar extends Component {
                         {
                             this.state.categories.map(element => (
                                 <li key={element.id}
-                                id={element.id}
-                                name={element.name}
+                                data-id={element.id}
+                                data-name={element.name}
                                 className={this.state.active === element.id ? "active" : ""}
-                                onClick={() => this.categoryChange(element)}>{element.name}</li>
+                                onClick={this.categoryChange}>{element.name}</li>
                             ))
                         }
                     </ul>
@@ -54,3 +60,17 @@ export default class Sidebar extends Component {
         );
     }
 }
+
+const mapStateToProps = (store, ownProps) => {
+    if (!store || !store) { return ownProps; }
+
+    const newProps = Object.assign({}, ownProps, {
+        coffees: store.coffeeReducer.coffees
+    });
+
+    return newProps;
+};
+
+const dispatchProps = (dispatch) => ({ dispatch });
+
+export default connect(mapStateToProps, dispatchProps)(Sidebar);
