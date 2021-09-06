@@ -31,12 +31,19 @@ export default function coffeeReducer(state = initialState, action) {
                     });
             }
         case actionTypes.COFFEE_SEARCH:
-            state.filterTodos = state.todos.filter((todo) =>
-                todo.includes(action.payload)
-            );
-            return { todos: state.todos, filterTodos: state.filterTodos };
+            newCoffees = Object.assign([], action.payload);
+            return Object.assign({},
+                state,
+                {
+                    categoryCoffees: newCoffees
+                });
         case actionTypes.GET_ALL_COFFEES:
-            return state;
+            newCoffees = state.coffees;
+            return Object.assign({},
+                state,
+                {
+                    categoryCoffees: newCoffees
+                });
 
         default:
             return state;

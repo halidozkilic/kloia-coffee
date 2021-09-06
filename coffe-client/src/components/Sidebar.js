@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
 import { connect } from "react-redux";
 import * as actionCreators from "../redux/actions/actionCreators";
+import axios from "axios";
 import { bindActionCreators } from "redux";
 
 
@@ -17,8 +18,25 @@ class Sidebar extends Component {
         active:''
     };
 
+    searchReq = (searchText) => {
+        axios.get('http://localhost:3000/coffee/search/' + searchText)
+            .then(response => {
+                console.log(response.data,searchText)
+                this.props.dispatch(actionCreators.coffeeSearch(response.data.coffees));
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
     searchChange = (e) =>{
-        let name = e.target;
+        let searchText = e.target && e.target.value;
+        if (searchText.length >= 3){
+          setTimeout(() => this.searchReq(searchText), 2000);
+        }
+        if (searchText.length === 0){
+            this.props.dispatch(actionCreators.getAllCoffees());
+        }
     }
 
     categoryChange = (e) => {
