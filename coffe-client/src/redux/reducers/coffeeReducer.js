@@ -1,21 +1,42 @@
 import initialState from "../initialState";
 import * as actionTypes from "../actions/actionTypes";
 
-export default function todoReducer(state = initialState, action) {
-    var newTodos;
+export default function coffeeReducer(state = initialState, action) {
+    var newCoffees;
     switch (action.type) {
-        case actionTypes.TODO_ADD:
-            newTodos = [...state.todos, action.payload];
-            return { todos: newTodos, filterTodos: newTodos };
-        case actionTypes.TODO_REMOVE:
-            newTodos = state.todos.filter((todo) => todo !== action.payload);
-            return { todos: newTodos, filterTodos: newTodos };
+        case actionTypes.SET_COFFEES:
+            newCoffees = Object.assign([], action.payload);
+            return Object.assign({},
+                state,
+                {
+                    categoryCoffees: newCoffees,
+                    coffees: newCoffees
+                });
 
-        case actionTypes.TODO_SEARCH:
+        case actionTypes.CHANGE_CATEGORY:
+            if (action.payload) {
+                let query = action.payload;
+                newCoffees = state.coffees.filter(o => o.category === query.toLowerCase());
+                return Object.assign({},
+                    state,
+                    {
+                        categoryCoffees: newCoffees
+                    });
+            } else {
+                newCoffees = state.coffees;
+                return Object.assign({},
+                    state,
+                    {
+                        categoryCoffees: newCoffees
+                    });
+            }
+        case actionTypes.COFFEE_SEARCH:
             state.filterTodos = state.todos.filter((todo) =>
                 todo.includes(action.payload)
             );
             return { todos: state.todos, filterTodos: state.filterTodos };
+        case actionTypes.GET_ALL_COFFEES:
+            return state;
 
         default:
             return state;

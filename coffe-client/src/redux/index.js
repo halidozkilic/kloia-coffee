@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-import todoReducer from "./reducers/todoReducer";
+import coffeeReducer from "./reducers/coffeeReducer";
 
 const reducers = combineReducers({
-  todoReducer
+  coffeeReducer
 });
 
 export default reducers;

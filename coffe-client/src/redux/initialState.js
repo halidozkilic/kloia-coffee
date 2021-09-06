@@ -1,5 +1,6 @@
+
 export default {
-  // todos: [],
-  // filterTodos: []
-     coffies: []
+     coffees: [],
+     categoryCoffees:[],
+     searchedCoffees:[],
 };

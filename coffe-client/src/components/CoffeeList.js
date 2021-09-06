@@ -1,24 +1,36 @@
 import React, { Component } from "react";
 import { InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as actionCreators from "../redux/actions/actionCreators";
 
-
-export default class CoffeeList extends Component {
-    state = {
-       coffees:[]
-    };
-
-    componentDidMount() {
-
-    }
+class CoffeeList extends Component {
 
     render() {
-    return (
-        <div>
+        return (
+            <div>
+                {this.props.coffees.map((coffee, index) => {
+                    return (
+                        <div key={index}>
+                            <h2>{coffee.title}</h2>
+                            <p>{coffee.description}</p>
+                            <span>Ingredients: {coffee.ingredients}</span>
+                        </div>
+                    );
+                })}
+            </div>
+        );
+    }
+}
 
-        </div>
-    );
-}
-}
+const mapStateToProps = (store, ownProps) => {
+    if (!store || !store) { return ownProps; }
+
+    const newProps = Object.assign({}, ownProps, {
+        coffees: store.coffeeReducer.categoryCoffees
+    });
+
+    return newProps;
+};
+
+const dispatchProps = (dispatch) => ({ dispatch });
+
+export default connect(mapStateToProps, dispatchProps)(CoffeeList);

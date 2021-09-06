@@ -1,5 +1,7 @@
 import * as actionTypes from "./actionTypes";
 
+export const setCoffees = (coffee) => ({type:actionTypes.SET_COFFEES,payload:coffee})
+
 export const getAllCoffees = (coffee) => ({type:actionTypes.GET_ALL_COFFEES,payload:coffee})
 
 export const changeCategory = (coffee) => ({type:actionTypes.CHANGE_CATEGORY,payload:coffee})
