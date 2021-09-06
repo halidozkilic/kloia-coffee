@@ -20,4 +20,5 @@ const CoffeeSchema = new Schema({
 },{ timestamps: {createdAt: 'createdTime', updatedAt: 'updatedTime'}
 });
 
+CoffeeSchema.index({title: 'text', description: 'text'})
 module.exports = mongoose.model('Coffee', CoffeeSchema);

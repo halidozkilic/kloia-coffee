@@ -66,4 +66,18 @@ const create = async(req,res,next) => {
     }
 }
 
-module.exports = { getAll, getById, updateById, deleteById, create };
+const search = async (req,res,next)=>{
+    const query= req.params.query;
+    try {
+    const searched = await  Coffee.find({"$or": [
+        { "title" : { $regex: query }},
+        { "description" : { $regex: query }},
+        { "ingredients" : { $regex: query }}]
+    });
+        return res.status(200).json({code: 200,message:"search completed successfully.",coffees:searched})
+    }catch (e){
+        return res.status(201).json({code: 201,message:"something went wrong",error:e})
+    }
+}
+
+module.exports = { getAll, getById, updateById, deleteById, create, search };
