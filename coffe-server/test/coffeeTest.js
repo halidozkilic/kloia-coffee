@@ -6,15 +6,11 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 const server = require('../app')
 
-const {singleCoffeById , newCoffee , fakeCoffee } = require('../mockData/testData')
-
+const {singleCoffeById , newCoffee , fakeCoffee , updateCoffee , updateCoffeeFake, search} = require('../mockData/testData')
 
 //Assertion
 chai.should()
 chai.use(chaiHttp);
-
-
-
 
 describe('Coffee API', () => {
 
@@ -122,9 +118,125 @@ describe('Coffee API', () => {
         });
     });
 
+    /**
+     * Test the UPDATE coffee (by id)
+     */
+    describe("PUT /coffee/:id", () => {
+        it("It should PUT an existing coffee", (done) => {
+            const coffeId = singleCoffeById.id
+            const coffee = updateCoffee
+            chai.request(server)
+                .put("/coffee/" + coffeId)
+                .send(coffee)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('code');
+                    response.body.should.have.property('message');
+                    response.body.should.have.property('success');
+                    response.body.should.have.property('updatedCoffee');
+                    response.body.updatedCoffee.should.be.a('object');
+                    expect(response.body.code).to.equal(200);
+                    expect(response.body.message).to.equal("Updated a single coffee");
+                    done();
+                });
+        });
 
+        it("It should NOT UPDATE an existing coffee with a missing data", (done) => {
+            const coffeId = singleCoffeById.id
+            const coffee = updateCoffeeFake
+            chai.request(server)
+                .put("/coffee/" + coffeId)
+                .send(coffee)
+                .end((err, response) => {
+                    response.should.have.status(400);
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('code');
+                    response.body.should.have.property('message');
+                    response.body.should.have.property('requiredField');
+                    response.body.requiredField.should.be.a('array');
+                    expect(response.body.code).to.equal(400);
+                    expect(response.body.message).to.equal("Invalid Input");
+                    done();
+                });
+        });
 
+        it("It should NOT UPDATE an non-existing coffee because of wrong id", (done) => {
+            const coffeId = singleCoffeById.fakeId
+            const coffee = updateCoffee
+            chai.request(server)
+                .put("/coffee/" + coffeId)
+                .send(coffee)
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('code');
+                    response.body.should.have.property('message');
+                    response.body.should.have.property('error');
+                    expect(response.body.code).to.equal(404);
+                    expect(response.body.message).to.equal("Not Found");
+                    done();
+                });
+        });
+    });
 
+    /**
+     * Test the DELETE a single coffee (by id)
+     */
+    describe("DELETE /coffee/:id", () => {
+        it("It should DELETE an existing coffee", (done) => {
+            const coffeeId = singleCoffeById.id
+            chai.request(server)
+                .delete("/coffee/" + coffeeId)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('code');
+                    response.body.should.have.property('message');
+                    response.body.should.have.property('success');
+                    response.body.should.have.property('deletedCoffee');
+                    response.body.deletedCoffee.should.be.a('object');
+                    expect(response.body.code).to.equal(200);
+                    expect(response.body.message).to.equal("Deletes a single coffee");
+                    done();
+                });
+        });
 
+        it("It should NOT DELETE a coffee that is not exist", (done) => {
+            const coffeeId = singleCoffeById.fakeId
+            chai.request(server)
+                .delete("/coffee/" + coffeeId)
+                .end((err, response) => {
+                    response.should.have.status(404);
+                    response.body.should.have.property('code');
+                    response.body.should.have.property('message');
+                    response.body.should.have.property('error');
+                    expect(response.body.code).to.equal(404);
+                    expect(response.body.message).to.equal("Not Found");
+                    done();
+                });
+        });
+    });
 
+    /**
+     * Test the SEARCH a single coffee (query)
+     */
+    describe("SEARCH /coffee/search/:id", () => {
+        it("It should SEARCH ", (done) => {
+            const query = search.query
+            chai.request(server)
+                .get("/coffee/search/" + query)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('code');
+                    response.body.should.have.property('message');
+                    response.body.should.have.property('coffees');
+                    response.body.coffees.should.be.a('array');
+                    expect(response.body.code).to.equal(200);
+                    expect(response.body.message).to.equal("search completed successfully.");
+                    done();
+                });
+        });
+    });
 })
