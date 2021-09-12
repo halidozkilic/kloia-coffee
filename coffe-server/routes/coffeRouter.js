@@ -10,7 +10,7 @@ router.post('/' ,Validate([coffeeDef.title,coffeeDef.category]) , create )
 router.get('/' , getAll)
 router.get('/:id' , getById)
 router.delete('/:id',  deleteById)
-router.put('/:id' , Validate([coffeeDef.title,coffeeDef.category]) ,updateById)
+router.put('/:id' , Validate([coffeeDef.title,coffeeDef.category,coffeeDef.description,coffeeDef.ingredients]) ,updateById)
 router.get('/search/:query', search)
 
 

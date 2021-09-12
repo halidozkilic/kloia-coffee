@@ -30,6 +30,7 @@ mongoose.connect('mongodb+srv://halid:6EpRyyTJdBBJg98M@cluster0.j0t8k.mongodb.ne
 
 
 mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 
 // view engine setup
