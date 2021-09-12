@@ -6,7 +6,7 @@ const Validate = (params) => {
         let errors = []
         for (let i in params){
             if (!data[params[i]]) errors.push(params[i])
-            if (params[i] === coffeeDef.category && !(data[params[i]] in [coffeeCategoryEnum.iced,coffeeCategoryEnum.hot])) {
+            if (params[i] === coffeeDef.category && !(data[params[i]] ==coffeeCategoryEnum.iced || data[params[i]] == coffeeCategoryEnum.hot)) {
                 errors.push('category must be iced or hot')
             }
         }
