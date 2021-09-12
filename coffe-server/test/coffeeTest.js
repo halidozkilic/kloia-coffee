@@ -6,7 +6,7 @@ const should = require('chai').should();
 const expect = require('chai').expect;
 const server = require('../app')
 
-const {singleCoffeById } = require('../mockData/testData')
+const {singleCoffeById , newCoffee , fakeCoffee } = require('../mockData/testData')
 
 
 //Assertion
@@ -80,8 +80,48 @@ describe('Coffee API', () => {
                     done();
                 });
         });
-
     });
+
+    /**
+     * Test the POST coffee
+     */
+    describe("POST /coffee", () => {
+        it("It should POST a new coffee", (done) => {
+            const coffee = newCoffee
+            chai.request(server)
+                .post("/coffee")
+                .send(coffee)
+                .end((err, response) => {
+                    response.should.have.status(200);
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('code');
+                    response.body.should.have.property('message');
+                    response.body.should.have.property('coffee');
+                    response.body.coffee.should.be.a('object');
+                    expect(response.body.code).to.equal(200);
+                    done();
+                });
+        });
+
+        it("It should NOT POST a new coffee without the title and category", (done) => {
+            const coffee = fakeCoffee
+            chai.request(server)
+                .post("/coffee")
+                .send(coffee)
+                .end((err, response) => {
+                    response.should.have.status(400);    //  return res.status(400).json({code: 400, message: "Invalid Input", requiredField:errors})
+                    response.body.should.be.a('object');
+                    response.body.should.have.property('code');
+                    response.body.should.have.property('message');
+                    response.body.should.have.property('requiredField');
+                    response.body.requiredField.should.be.a('array');
+                    expect(response.body.code).to.equal(400);
+                    expect(response.body.message).to.equal("Invalid Input");
+                    done();
+                });
+        });
+    });
+
 
 
 
