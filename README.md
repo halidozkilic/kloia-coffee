@@ -15,13 +15,14 @@
 <li>Delete a single coffee by id </li>
 <li>Search by query</li>
 <li>Deployed on <a href="https://kloia-coffee-server.herokuapp.com/" target="_blank">heroku</a></li>
-<ul>
+
 
 ### How to Start Backend
 **npm install** then **npm start** will be enough.
 if you want to work with your own data just change the moongoose url 
 Also you could implement some mockdata to your db by **npm run mock**
 Start test with **npm run test**
+</ul>
 
 ### Frontend
 <ul>
@@ -32,12 +33,13 @@ Start test with **npm run test**
 <li>Deployed on 
  <a href="https://kloia-coffee-client.herokuapp.com/" target="_blank">heroku</a>
 </li>
-<ul>
+
 
 ### How to Start Frontend
 **npm install** then **npm start** will be enough.
 If you want to work with your local-backend please do not forget to change apiUrl to localApiUrl in config file.
 
+</ul>
 ![alt text](https://github.com/halidozkilic/kloia-coffee/blob/master/image.jpg?raw=true)
 
 
