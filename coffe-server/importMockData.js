@@ -12,18 +12,26 @@ mongoose.connect('mongodb+srv://halid:6EpRyyTJdBBJg98M@cluster0.j0t8k.mongodb.ne
 const mock = JSON.parse(fs.readFileSync("./mockData/coffees.json" ));
 
 const addMock = async function(){
-    try {
-        await Coffee.create(mock);
-        console.log("Success.Data created.");
+    const coffees = await Coffee.find();
+    if(coffees.length>0){
+        console.log("datas are already implemented!");
+    }
+    else{
+        try {
+            await Coffee.create(mock);
+            console.log("Success.Data created.");
 
+        }
+        catch(err) {
+            console.log(err);
+            console.err("failed:"+ err);
+        }
+        finally {
+            process.exit();
+        }
     }
-    catch(err) {
-        console.log(err);
-        console.err("failed:"+ err);
-    }
-    finally {
-        process.exit();
-    }
+
+
 }
 
 addMock();
