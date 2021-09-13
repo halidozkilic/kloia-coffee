@@ -38,10 +38,10 @@ Start test with **npm run test**
 ### How to Start Frontend
 **npm install** then **npm start** will be enough.
 If you want to work with your local-backend please do not forget to change apiUrl to localApiUrl in config file.
+
 </ul>
 
-
-![alt text](https://github.com/halidozkilic/kloia-coffee/blob/master/img.jpg?raw=true)
+![alt text](https://github.com/halidozkilic/kloia-coffee/blob/master/coffe-client/public/img.jpg?raw=true)
 
 
 
