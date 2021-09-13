@@ -5,11 +5,13 @@ import CoffeeList from '../components/CoffeeList';
 import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import axios from "axios";
+import { server } from "../config/config";
 import * as actionCreators from "../redux/actions/actionCreators";
+
 class CoffeePage extends Component {
 
     componentDidMount() {
-        axios.get('http://localhost:3000/coffee/')
+        axios.get(server.apiUrl)
             .then(response => {
                 this.props.dispatch(actionCreators.setCoffees(response.data.allCoffies));
             })

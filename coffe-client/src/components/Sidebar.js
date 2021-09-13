@@ -3,6 +3,7 @@ import { InputGroup, Input, InputGroupAddon, Button } from "reactstrap";
 import { connect } from "react-redux";
 import * as actionCreators from "../redux/actions/actionCreators";
 import axios from "axios";
+import { server } from "../config/config";
 import { bindActionCreators } from "redux";
 
 
@@ -19,7 +20,7 @@ class Sidebar extends Component {
     };
 
     searchReq = (searchText) => {
-        axios.get('http://localhost:3000/coffee/search/' + searchText)
+        axios.get(server.apiUrl +'/search/'+ searchText)
             .then(response => {
                 console.log(response.data,searchText)
                 this.props.dispatch(actionCreators.coffeeSearch(response.data.coffees));
