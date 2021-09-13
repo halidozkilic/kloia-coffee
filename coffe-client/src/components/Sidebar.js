@@ -22,7 +22,6 @@ class Sidebar extends Component {
     searchReq = (searchText) => {
         axios.get(server.apiUrl +'/search/'+ searchText)
             .then(response => {
-                console.log(response.data,searchText)
                 this.props.dispatch(actionCreators.coffeeSearch(response.data.coffees));
             })
             .catch(error => {
